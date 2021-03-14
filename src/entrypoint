@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+if [ "${1}" = "flei" ]; then
+  FLEI_COMMAND="${FLEI_ROOT_PATH}/bin/${2}.sh"
+  if [ -f "${FLEI_COMMAND}" ]; then
+    exec "${FLEI_COMMAND}"
+  fi
+
+  exec "${FLEI_ROOT_PATH}/bin/help"
+fi
+
+exec "$@"
