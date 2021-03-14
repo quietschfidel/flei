@@ -10,7 +10,7 @@ if [ ! -d "${SCRIPT_DIR}/.flei" ]; then
   docker run --rm -ti \
     -u $(id -u ${USER}):$(id -g ${USER}) \
     -v "${SCRIPT_DIR}/../":/opt/flei-project-root \
-    flei:latest \
+    ghcr.io/quietschfidel/flei:latest \
     flei install
 fi
 
