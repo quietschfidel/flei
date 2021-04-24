@@ -6,7 +6,7 @@ set -o pipefail
 FLEI_BASE_DIR="$(cd `dirname ${BASH_SOURCE[0]}` && pwd)"
 
 source "${FLEI_BASE_DIR}/utils/require.sh"
-source "${FLEI_BASE_DIR}/utils/resolve-path.sh"
+flei_require ./utils/resolve-path
 flei_require @flei/logger
 
 COMMAND="${1}"
