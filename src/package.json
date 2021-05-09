@@ -1,13 +1,15 @@
 {
   "name": "flei",
   "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@types/node": "^14.14.41",
     "dotenv": "^8.2.0",
     "fs-extra": "^9.1.0",
     "js-yaml": "^4.1.0",
     "nodegit": "^0.27.0",
-    "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }
 }

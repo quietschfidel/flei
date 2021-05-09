@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 import { readFile, writeFile, readdir, rm, mkdtemp } from 'fs/promises';
 import { move } from 'fs-extra';
@@ -49,7 +49,7 @@ function getAuthConfig(authConfig) {
     const config = {
       userVariableName: 'FLEI_PLUGIN_GIT_USERNAME',
       passwordVariableName: 'FLEI_PLUGIN_GIT_PASSWORD',
-      envFile: 'local-config/.env',
+      envFile: 'config/local/.env.flei-plugins',
       ...authConfig
     };
     const envFilePath = getConfigPath(config.envFile);
@@ -64,8 +64,8 @@ function getAuthConfig(authConfig) {
   if (authConfig.type === 'ssh') {
     const config = {
       username: 'git',
-      publicKey: 'local-config/id_ed25519.pub',
-      privateKey: 'local-config/id_ed25519',
+      publicKey: 'config/local/id_ed25519.pub',
+      privateKey: 'config/local/id_ed25519',
       passphrase: '',
       ...authConfig
     };

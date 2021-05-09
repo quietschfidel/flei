@@ -7,7 +7,9 @@ COPY src "${FLEI_ROOT_PATH}"
 # yarn install in a separate stage to ensure there is no
 # yarn cache in home, or some other stuff adding to
 # the image size
-RUN yarn install --frozen-lockfile --cwd "${FLEI_ROOT_PATH}"
+RUN yarn install --frozen-lockfile --cwd "${FLEI_ROOT_PATH}" \
+    && yarn --cwd "${FLEI_ROOT_PATH}" build \
+    && chmod +x ${FLEI_ROOT_PATH}/bin/*.js
 
 # Stage 2
 FROM node:14-buster-slim

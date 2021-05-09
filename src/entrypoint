@@ -9,7 +9,7 @@ if [ "${1}" = "flei" ]; then
     exec "${FLEI_COMMAND}"
   fi
 
-  FLEI_NODE_COMMAND="${FLEI_ROOT_PATH}/bin/${2}.ts"
+  FLEI_NODE_COMMAND="${FLEI_ROOT_PATH}/bin/${2}.js"
   if [ -f "${FLEI_NODE_COMMAND}" ]; then
     exec "${FLEI_NODE_COMMAND}"
   fi

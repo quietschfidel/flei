@@ -9,7 +9,8 @@ flei_resolve_path() {
   local PLUGIN_PREFIX="@"
   local ABSOLUTE_PATH_PREFIX="/"
   local RELATIVE_PATH_PREFIX="./"
-  local FILE_SUFFIX=".sh"
+  local ALTERNATIVE_RELATIVE_PATH_PREFIX="../"
+  local FILE_SUFFIX="${4:-".sh"}"
   local RESOLVE_SUFFIX=$([ "${PATH_TO_RESOLVE: -3}" == "${FILE_SUFFIX}" ] && echo "" || echo "${FILE_SUFFIX}")
 
   source "${FLEI_CORE_PLUGIN_UTILS_DIR}/get-normalized-path.sh"
@@ -30,6 +31,12 @@ flei_resolve_path() {
   fi
 
   if [ "${PATH_TO_RESOLVE:0:2}" == "${RELATIVE_PATH_PREFIX}" ]; then
+    local RESOLVED_PATH="${BASE_PATH_FOR_RELATIVE_REQUIRE}/${PATH_TO_RESOLVE}${RESOLVE_SUFFIX}"
+    echo "$(flei_get_normalized_path "${RESOLVED_PATH}")"
+    exit 0
+  fi
+
+  if [ "${PATH_TO_RESOLVE:0:3}" == "${ALTERNATIVE_RELATIVE_PATH_PREFIX}" ]; then
     local RESOLVED_PATH="${BASE_PATH_FOR_RELATIVE_REQUIRE}/${PATH_TO_RESOLVE}${RESOLVE_SUFFIX}"
     echo "$(flei_get_normalized_path "${RESOLVED_PATH}")"
     exit 0
