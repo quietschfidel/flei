@@ -2,16 +2,40 @@ flei_docker_get_compose_project_name() {
   flei_get_clean_project_name
 }
 
+flei_get_docker_compose_path() {
+  flei_require @flei/common-paths
+
+  local DOCKER_COMPOSE_PATH_BASE="$(flei_resolve_path "${1}" "/docker/" "${BASH_SOURCE[1]}" ".docker-compose")"
+  local DOCKER_COMPOSE_PATH_YML="${DOCKER_COMPOSE_PATH_BASE}.yml"
+  local DOCKER_COMPOSE_PATH_JS="${DOCKER_COMPOSE_PATH_BASE}.js"
+  local DOCKER_COMPOSE_PATH_GENERATED="${DOCKER_COMPOSE_PATH_BASE}.js.yml"
+
+  if [ -f "${DOCKER_COMPOSE_PATH_JS}" ]; then
+    local PROJECT_ROOT="$(flei_project_root)"
+    local PROJECT_ROOT_IN_DOCKER="/opt/flei-project-root"
+    local DOCKER_COMPOSE_RELATIVE_TO_PROJECT_ROOT="${DOCKER_COMPOSE_PATH_JS#"${PROJECT_ROOT}/"}"
+    local DOCKER_COMPOSE_PATH_IN_DOCKER="${PROJECT_ROOT_IN_DOCKER}/${DOCKER_COMPOSE_RELATIVE_TO_PROJECT_ROOT}"
+    docker run --rm -i -u "${RUN_UID}:${RUN_GID}" \
+      -v "${PROJECT_ROOT}:${PROJECT_ROOT_IN_DOCKER}" \
+      ghcr.io/quietschfidel/flei:latest \
+      flei generate-docker-compose-config-from-js "${DOCKER_COMPOSE_PATH_IN_DOCKER}"
+    echo "${DOCKER_COMPOSE_PATH_GENERATED}"
+    exit 0
+  fi
+
+  echo "${DOCKER_COMPOSE_PATH_YML}"
+}
+
 flei_docker() {
   flei_require @flei/resolve-path
   flei_require @flei/common-paths
   flei_require @flei/get-project-name
 
-  local DOCKER_COMPOSE_PATH="$(flei_resolve_path "${1}" "/docker/" "${BASH_SOURCE[1]}" ".docker-compose.yml")"
-
   export RUN_UID="$(id -u)"
   export RUN_GID="$(id -g)"
   export FLEI_PROJECT_ROOT="$(flei_project_root)"
+
+  local DOCKER_COMPOSE_PATH="$(flei_get_docker_compose_path "${@}")"
 
   export COMPOSE_PROJECT_NAME="$(flei_docker_get_compose_project_name)"
 

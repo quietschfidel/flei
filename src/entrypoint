@@ -6,12 +6,12 @@ set -o pipefail
 if [ "${1}" = "flei" ]; then
   FLEI_COMMAND="${FLEI_ROOT_PATH}/bin/${2}.sh"
   if [ -f "${FLEI_COMMAND}" ]; then
-    exec "${FLEI_COMMAND}"
+    exec "${FLEI_COMMAND}" "${@:3}"
   fi
 
   FLEI_NODE_COMMAND="${FLEI_ROOT_PATH}/bin/${2}.js"
   if [ -f "${FLEI_NODE_COMMAND}" ]; then
-    exec "${FLEI_NODE_COMMAND}"
+    exec "${FLEI_NODE_COMMAND}" "${@:3}"
   fi
 
   exec "${FLEI_ROOT_PATH}/bin/help.sh"

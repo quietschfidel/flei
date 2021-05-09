@@ -1,2 +1,3 @@
 /.flei
 /config/local
+*.docker-compose.js.yml
