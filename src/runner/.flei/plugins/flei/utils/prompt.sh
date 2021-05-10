@@ -1,5 +1,6 @@
 flei_prompt() {
-  local PROMPT_TEXT="$(echo -e "${1}\n> ")"
+  local PROMPT_TEXT
+  PROMPT_TEXT="$(echo -e "${1}\n> ")"
   local USER_INPUT
 
   flei_require @flei/colors

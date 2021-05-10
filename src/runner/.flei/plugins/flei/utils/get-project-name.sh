@@ -4,6 +4,7 @@ flei_get_project_name() {
 }
 
 flei_get_clean_project_name() {
+  local NAME_UNCLEANED
   NAME_UNCLEANED="$(flei_get_project_name)"
 
   # from https://stackoverflow.com/a/94500

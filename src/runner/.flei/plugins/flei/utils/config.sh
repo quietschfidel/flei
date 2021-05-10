@@ -16,7 +16,8 @@ flei_get_config_path() {
 }
 
 flei_get_config() {
-  local CONFIG_FILE_PATH="$(flei_get_config_path "${1}")"
+  local CONFIG_FILE_PATH
+  CONFIG_FILE_PATH="$(flei_get_config_path "${1}")"
   local VARIABLE_NAME=${2}
 
   touch "${CONFIG_FILE_PATH}"
@@ -37,17 +38,20 @@ echo \"\${${VARIABLE_NAME}}\"
 
 flei_ensure_config() {
   local CONFIG_NAME="${1}"
-  local CONFIG_FILE_PATH="$(flei_get_config_path "${1}")"
+  local CONFIG_FILE_PATH
+  CONFIG_FILE_PATH="$(flei_get_config_path "${1}")"
   local VARIABLE_NAME=${2}
   local PROMPT_TEXT=${3}
 
   flei_require @flei/logger
   flei_require @flei/prompt
 
-  local CURRENT_VALUE=$(flei_get_config "${CONFIG_NAME}" "${VARIABLE_NAME}")
+  local CURRENT_VALUE
+  CURRENT_VALUE=$(flei_get_config "${CONFIG_NAME}" "${VARIABLE_NAME}")
 
   if [ -z "${CURRENT_VALUE}" ]; then
-    local NEW_VALUE="$(flei_prompt "${PROMPT_TEXT}")"
+    local NEW_VALUE
+    NEW_VALUE="$(flei_prompt "${PROMPT_TEXT}")"
     echo "${VARIABLE_NAME}=\"${NEW_VALUE}\"" >> "${CONFIG_FILE_PATH}"
     flei_log_notice "Updated config in: ${CONFIG_FILE_PATH}"
     echo "${NEW_VALUE}"
