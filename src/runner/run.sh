@@ -9,6 +9,7 @@ set -o pipefail
   SCRIPT_DIR="$(cd `dirname ${0}` && pwd)"
   FLEI_RC_PATH="${SCRIPT_DIR}/.fleirc"
 
+  touch "${FLEI_RC_PATH}"
   source "${FLEI_RC_PATH}"
   if [ -z "${FLEI_IMAGE}" ]; then
     docker pull ghcr.io/quietschfidel/flei:latest

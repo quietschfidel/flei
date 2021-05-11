@@ -15,11 +15,18 @@ flei_get_config_path() {
   echo "$(flei_root_dir)/config/.env.${PATH_TO_RESOLVE}"
 }
 
+flei_create_config_dirs() {
+  flei_require @flei/common-paths
+
+  mkdir -p "$(flei_root_dir)/config/local"
+}
+
 flei_get_config() {
   local CONFIG_FILE_PATH
   CONFIG_FILE_PATH="$(flei_get_config_path "${1}")"
   local VARIABLE_NAME=${2}
 
+  flei_create_config_dirs
   touch "${CONFIG_FILE_PATH}"
 
   SUBSHELL_COMMAND="
